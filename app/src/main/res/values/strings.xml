@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Travel Journal</string>
+    <string name="app_name_underline"><u>Travel\nJournal</u></string>
+    <string name="register_here"><u>Daftar disini</u></string>
+</resources>
