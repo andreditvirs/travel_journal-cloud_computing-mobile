@@ -11,4 +11,8 @@
     <color name="color_2">#4A4E69</color>
     <color name="color_3">#C9ADA7</color>
     <color name="color_4">#F2E9E4</color>
+    
+    <color name="mapboxWhite">#FFFFFF</color>
+    <color name="mapboxBlue">#4264FB</color>
+    <color name="mapboxGrayLight">#C6D2E1</color>
 </resources>
