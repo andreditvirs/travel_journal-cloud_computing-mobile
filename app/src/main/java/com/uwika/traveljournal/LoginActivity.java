@@ -1,30 +1,97 @@
 package com.uwika.traveljournal;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
-public class LoginActivity extends AppCompatActivity {
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
-    AppCompatButton btn_login;
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private EditText editTextEmail,editTextPassword;
+    private AppCompatButton btn_login;
+    private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        btn_login = findViewById(R.id.btn_login);
+        mAuth = FirebaseAuth.getInstance();
 
-        btn_login.setOnClickListener(new View.OnClickListener() {
+        btn_login = findViewById(R.id.btn_login);
+        btn_login.setOnClickListener(this);
+
+        editTextEmail = findViewById(R.id.editTextEmail);
+        editTextPassword = findViewById(R.id.editTextPassword);
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btn_login:
+                userLogin();
+                break;
+        }
+    }
+
+    private void userLogin() {
+        String email = editTextEmail.getText().toString().trim();
+        String password = editTextPassword.getText().toString().trim();
+
+        // Validate data First
+        signInValidation(email, password);
+
+        // Signin Attempt
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                startActivity(intent);
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful()){
+                    //Redirect to homepage
+                    startActivity(new Intent(LoginActivity.this,HomeActivity.class));
+                }else{
+                    Toast.makeText(LoginActivity.this, "Failed Login! User Credentials Invalid!", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
 
+    private void signInValidation(String email, String password) {
+        if(email.isEmpty()){
+            editTextEmail.setError("Email is required!");
+            editTextEmail.requestFocus();
+            return;
+        }
 
+        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            editTextEmail.setError("Must be in Email format");
+            editTextEmail.requestFocus();
+            return;
+        }
+        if(password.isEmpty()){
+            editTextPassword.setError("Password is required!");
+            editTextPassword.requestFocus();
+            return;
+        }
+        if(password.length()<6){
+            editTextPassword.setError("Password too short!");
+            editTextPassword.requestFocus();
+            return;
+        }
+    }
 }
