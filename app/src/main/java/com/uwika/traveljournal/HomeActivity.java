@@ -1,16 +1,29 @@
 package com.uwika.traveljournal;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-;import com.mapbox.maps.MapView;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+;import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.mapbox.maps.MapView;
 import com.mapbox.maps.Style;
 import com.mapbox.maps.plugin.Plugin;
 
@@ -25,6 +38,11 @@ public class HomeActivity extends AppCompatActivity {
     LastJournalAdapter last_journal_adapter;
     RecyclerView.LayoutManager layout_manager;
     ArrayList<LastJournalModel> last_journal_item;
+
+    private Button logout;
+    private FirebaseUser user;
+    private DatabaseReference reference;
+    private String UID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +74,43 @@ public class HomeActivity extends AppCompatActivity {
 
         last_journal_adapter = new LastJournalAdapter(last_journal_item);
         rV_last_journals.setAdapter(last_journal_adapter);
+
+        // Logout Auth
+        //logout = (Button) findViewById(R.id.btn_logout);
+        //logout.setOnClickListener(new View.OnClickListener() {
+        //    @Override
+        //    public void onClick(View v) {
+        //        FirebaseAuth.getInstance().signOut();
+        //        startActivity(new Intent(HomeActivity.this,LoginActivity.class));
+        //    }
+        //});
+
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        reference = FirebaseDatabase.getInstance().getReference("Users");
+        UID = user.getUid();
+
+
+        final TextView greetingTextView = (TextView) findViewById(R.id.greeting);
+
+        reference.child(UID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User userProfile = snapshot.getValue(User.class);
+
+                if(userProfile != null){
+                    String name = userProfile.name;
+                    String email = userProfile.email;
+                    String password = userProfile.password;
+
+                    greetingTextView.setText("Hi, "+ name +"!");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(HomeActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -88,4 +143,5 @@ public class HomeActivity extends AppCompatActivity {
         super.onDestroy();
         mapView.onDestroy();
     }
+
 }

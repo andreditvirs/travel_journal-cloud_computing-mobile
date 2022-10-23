@@ -10,8 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true">
-        <include
-            layout="@layout/appbar"/>
+
+        <include layout="@layout/appbar" />
     </LinearLayout>
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -27,14 +27,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <TextView
+                    android:id="@+id/greeting"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Hai, Nova!"
                     android:fontFamily="sans-serif"
+                    android:text="Hai, Nova!"
+                    android:textColor="@color/color_1"
                     android:textFontWeight="500"
-                    android:textSize="24dp"
-                    android:textColor="@color/color_1"/>
+                    android:textSize="24dp" />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

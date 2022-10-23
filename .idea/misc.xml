@@ -6,8 +6,11 @@
         <entry key="..\:/xampp/htdocs/private/kuliah/CloudComputing/travel_journal-cloud_computing-mobile/app/src/main/res/drawable/bg_round_search_last_journal.xml" value="0.1195" />
         <entry key="..\:/xampp/htdocs/private/kuliah/CloudComputing/travel_journal-cloud_computing-mobile/app/src/main/res/drawable/btn_parallelogram_journal_date.xml" value="0.1" />
         <entry key="..\:/xampp/htdocs/private/kuliah/CloudComputing/travel_journal-cloud_computing-mobile/app/src/main/res/drawable/btn_round_login.xml" value="0.1" />
-        <entry key="..\:/xampp/htdocs/private/kuliah/CloudComputing/travel_journal-cloud_computing-mobile/app/src/main/res/layout/activity_home.xml" value="0.20092592592592592" />
+        <entry key="..\:/xampp/htdocs/private/kuliah/CloudComputing/travel_journal-cloud_computing-mobile/app/src/main/res/drawable/ic_baseline_logout_24.xml" value="0.208" />
+        <entry key="..\:/xampp/htdocs/private/kuliah/CloudComputing/travel_journal-cloud_computing-mobile/app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.208" />
+        <entry key="..\:/xampp/htdocs/private/kuliah/CloudComputing/travel_journal-cloud_computing-mobile/app/src/main/res/layout/activity_home.xml" value="0.33" />
         <entry key="..\:/xampp/htdocs/private/kuliah/CloudComputing/travel_journal-cloud_computing-mobile/app/src/main/res/layout/activity_login.xml" value="0.25650557620817843" />
+        <entry key="..\:/xampp/htdocs/private/kuliah/CloudComputing/travel_journal-cloud_computing-mobile/app/src/main/res/layout/activity_register.xml" value="0.27291666666666664" />
         <entry key="..\:/xampp/htdocs/private/kuliah/CloudComputing/travel_journal-cloud_computing-mobile/app/src/main/res/layout/appbar.xml" value="0.27291666666666664" />
       </map>
     </option>

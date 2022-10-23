@@ -8,9 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +21,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private EditText editTextEmail,editTextPassword;
     private AppCompatButton btn_login;
+    private TextView link_register;
     private FirebaseAuth mAuth;
 
     @Override
@@ -32,6 +31,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
 
         mAuth = FirebaseAuth.getInstance();
+
+        link_register = findViewById(R.id.link_register);
+        link_register.setOnClickListener(this);
 
         btn_login = findViewById(R.id.btn_login);
         btn_login.setOnClickListener(this);
@@ -44,6 +46,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.link_register:
+                startActivity(new Intent(this,RegisterActivity.class));
+                break;
             case R.id.btn_login:
                 userLogin();
                 break;
@@ -55,7 +60,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         String password = editTextPassword.getText().toString().trim();
 
         // Validate data First
-        signInValidation(email, password);
+        if(email.isEmpty()){
+            editTextEmail.setError("Email is required!");
+            editTextEmail.requestFocus();
+            return;
+        }
+        if(password.isEmpty()){
+            editTextPassword.setError("Password is required!");
+            editTextPassword.requestFocus();
+            return;
+        }
+        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            editTextEmail.setError("Must be in Email format");
+            editTextEmail.requestFocus();
+            return;
+        }
+        if(password.length()<6){
+            editTextPassword.setError("Password too short!");
+            editTextPassword.requestFocus();
+            return;
+        }
 
         // Signin Attempt
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -71,27 +95,5 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         });
     }
 
-    private void signInValidation(String email, String password) {
-        if(email.isEmpty()){
-            editTextEmail.setError("Email is required!");
-            editTextEmail.requestFocus();
-            return;
-        }
 
-        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-            editTextEmail.setError("Must be in Email format");
-            editTextEmail.requestFocus();
-            return;
-        }
-        if(password.isEmpty()){
-            editTextPassword.setError("Password is required!");
-            editTextPassword.requestFocus();
-            return;
-        }
-        if(password.length()<6){
-            editTextPassword.setError("Password too short!");
-            editTextPassword.requestFocus();
-            return;
-        }
-    }
 }

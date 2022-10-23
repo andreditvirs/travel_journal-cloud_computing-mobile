@@ -92,6 +92,7 @@
                 android:text="Belum punya akun?" />
 
             <TextView
+                android:id="@+id/link_register"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
