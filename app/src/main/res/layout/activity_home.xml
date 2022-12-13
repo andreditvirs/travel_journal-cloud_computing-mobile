@@ -33,7 +33,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif"
-                    android:text="Hai, Nova!"
+                    android:text="Hai, Selamat Datang!"
                     android:textColor="@color/color_1"
                     android:textFontWeight="500"
                     android:textSize="24dp" />
@@ -128,16 +128,19 @@
                         android:src="@drawable/ic_baseline_search_24"/>
                 </LinearLayout>
             </LinearLayout>
-            <LinearLayout
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rV_last_journals"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rV_last_journals"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    tools:listitem="@layout/grid_journal_item"/>
-            </LinearLayout>
+                android:layout_height="match_parent"
+                tools:listitem="@layout/grid_journal_item"/>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_create"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_outline_add_a_photo_34"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="20dp"/>
 </RelativeLayout>

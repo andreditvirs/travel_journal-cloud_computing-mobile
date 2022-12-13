@@ -1,14 +1,17 @@
 package com.uwika.traveljournal;
 
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class LastJournalAdapter extends RecyclerView.Adapter<LastJournalAdapter.ViewHolder> {
@@ -43,6 +46,14 @@ public class LastJournalAdapter extends RecyclerView.Adapter<LastJournalAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull LastJournalAdapter.ViewHolder holder, int position) {
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(view.getContext(), "INI ID " + holder.getAdapterPosition(), Toast.LENGTH_LONG).show();
+            }
+        });
+
         TextView txtV_title = holder.txtV_title;
         TextView txtV_date = holder.txtV_date;
         TextView txtV_month_year = holder.txtV_month_year;
@@ -51,7 +62,12 @@ public class LastJournalAdapter extends RecyclerView.Adapter<LastJournalAdapter.
         txtV_title.setText(modelLastJournal.get(position).getTitle());
         txtV_date.setText(modelLastJournal.get(position).getDate());
         txtV_month_year.setText(modelLastJournal.get(position).getMonth_year());
-        imgV_cover.setImageResource(modelLastJournal.get(position).getCover());
+        if(modelLastJournal.get(position).getReal_cover() != ""){
+            File imgFile = new File(modelLastJournal.get(position).getReal_cover());
+            imgV_cover.setImageURI(Uri.fromFile(imgFile));
+        }else{
+            imgV_cover.setImageResource(modelLastJournal.get(position).getCover());
+        }
     }
 
     @Override

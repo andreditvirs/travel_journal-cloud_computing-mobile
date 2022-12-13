@@ -2,9 +2,12 @@
     <string name="app_name">Travel Journal</string>
     <string name="app_name_underline"><u>Travel\nJournal</u></string>
     <string name="register_here"><u>Daftar disini</u></string>
+    <string name="login_here"><u>Masuk disini</u></string>
     <string name="mapbox_access_token">pk.eyJ1IjoiYW5kcmVkaXR2aXJzIiwiYSI6ImNsMzFjNmY3MTBhb2szYm9qc3F5ZjgzbjEifQ.LBvmSYIr3VjsTDLBBulHkg</string>
-    <string name="name">Full Name</string>
+    <string name="name">Nama Lengkap</string>
     <string name="username">Username</string>
+    <string name="birthdate">Tanggal Lahir</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
+    <string name="skip"><u>Lewati</u></string>
 </resources>
