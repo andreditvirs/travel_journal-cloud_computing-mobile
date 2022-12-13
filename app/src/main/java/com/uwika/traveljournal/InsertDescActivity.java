@@ -246,11 +246,13 @@ public class InsertDescActivity extends AppCompatActivity implements View.OnClic
                     , Integer.toString(day)
                     , getMonthForInt(month)
                     , R.drawable.example_journal_1
-                    , photo));
+                    , photo
+                    , ""
+                    , "click"));
             i++;
         }
 
-        last_journal_adapter = new LastJournalAdapter(last_journal_item);
+        last_journal_adapter = new LastJournalAdapter(InsertDescActivity.this, last_journal_item);
         rV_last_journals.setAdapter(last_journal_adapter);
     }
 

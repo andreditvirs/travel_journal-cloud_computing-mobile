@@ -16,6 +16,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -40,7 +41,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.mapbox.maps.CameraOptions;
 import com.mapbox.maps.MapView;
+import com.mapbox.maps.MapboxMap;
 import com.mapbox.maps.Style;
 import com.mapbox.maps.plugin.Plugin;
 
@@ -55,19 +58,21 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener{
 
     private Toolbar toolbar;
     private MapView mapView;
+    private MapboxMap mapboxMap;
     private static final String[] COUNTRIES = new String[]{"Sidoarjo", "Surabaya", "Jombang", "Blitar"};
     RecyclerView rV_last_journals;
     LastJournalAdapter last_journal_adapter;
     RecyclerView.LayoutManager layout_manager;
     ArrayList<LastJournalModel> last_journal_item = new ArrayList<>();
     FloatingActionButton btn_create;
-    ArrayList<String> my_journals = new ArrayList<>();
+    HashMap<String, String> my_journals = new HashMap<>();
 
     // create
     String currentPhotoPath;
@@ -127,11 +132,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
                     for(DataSnapshot ds : snapshot.child("journals").getChildren()) {
                         String key = ds.getKey();
-                        my_journals.add(snapshot.child("journals").child(key).getValue(String.class));
+                        my_journals.put(ds.getKey(), snapshot.child("journals").child(key).getValue(String.class));
                     }
 
-                    for (int i = 0; i < my_journals.size(); i++){
-                        String txt_my_journal = my_journals.get(i);
+                    for(Map.Entry<String, String> data : my_journals.entrySet()) {
+                        String txt_my_journal = data.getValue();
 
                         Type mapType = new TypeToken<HashMap<String, Object>>(){}.getType();
                         HashMap<String, Object> gson = new Gson().fromJson(txt_my_journal, mapType);
@@ -159,10 +164,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                                 , journal_date.split(" ")[0]
                                 , journal_date.split(" ")[1] + " " +journal_date.split(" ")[2]
                                 , R.drawable.example_journal_1
-                                , photos.get(0)));
+                                , photos.get(0)
+                                , data.getKey()
+                                , "click"));
                     }
 
-                    last_journal_adapter = new LastJournalAdapter(last_journal_item);
+                    last_journal_adapter = new LastJournalAdapter(HomeActivity.this, last_journal_item);
                     rV_last_journals.setAdapter(last_journal_adapter);
 
                     SharedPreferences sharedPreferences = getSharedPreferences("uwika-travel-journal",MODE_PRIVATE);

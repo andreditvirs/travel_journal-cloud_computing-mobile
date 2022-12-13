@@ -1,6 +1,9 @@
 package com.uwika.traveljournal;
 
+import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +14,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.io.File;
 import java.util.ArrayList;
 
 public class LastJournalAdapter extends RecyclerView.Adapter<LastJournalAdapter.ViewHolder> {
 
+    private Context context;
     private ArrayList<LastJournalModel> modelLastJournal;
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -33,7 +39,8 @@ public class LastJournalAdapter extends RecyclerView.Adapter<LastJournalAdapter.
         }
     }
 
-    LastJournalAdapter(ArrayList<LastJournalModel> data) {
+    LastJournalAdapter(Context context, ArrayList<LastJournalModel> data) {
+        this.context = context;
         this.modelLastJournal = data;
     }
 
@@ -50,7 +57,21 @@ public class LastJournalAdapter extends RecyclerView.Adapter<LastJournalAdapter.
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(view.getContext(), "INI ID " + holder.getAdapterPosition(), Toast.LENGTH_LONG).show();
+                if(modelLastJournal.get(holder.getAdapterPosition()).getType().equals("click")){
+                    Intent intent = new Intent(context, DetailJournalActivity.class);
+
+                    Bundle mBundle = new Bundle();
+                    mBundle.putString("uuid", modelLastJournal.get(holder.getAdapterPosition()).getUuid());
+                    intent.putExtras(mBundle);
+                    context.startActivity(intent);
+                }else if(modelLastJournal.get(holder.getAdapterPosition()).getType().equals("show")){
+                    Intent intent = new Intent(context, DetailPhotoActivity.class);
+
+                    Bundle mBundle = new Bundle();
+                    mBundle.putString("photo_url", modelLastJournal.get(holder.getAdapterPosition()).getReal_cover());
+                    intent.putExtras(mBundle);
+                    context.startActivity(intent);
+                }
             }
         });
 
@@ -64,7 +85,7 @@ public class LastJournalAdapter extends RecyclerView.Adapter<LastJournalAdapter.
         txtV_month_year.setText(modelLastJournal.get(position).getMonth_year());
         if(modelLastJournal.get(position).getReal_cover() != ""){
             File imgFile = new File(modelLastJournal.get(position).getReal_cover());
-            imgV_cover.setImageURI(Uri.fromFile(imgFile));
+            Glide.with(context).load(Uri.fromFile(imgFile)).into(imgV_cover);
         }else{
             imgV_cover.setImageResource(modelLastJournal.get(position).getCover());
         }

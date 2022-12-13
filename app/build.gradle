@@ -41,4 +41,9 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     implementation 'com.mapbox.maps:android:10.8.1'
+//    implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:6.0.1'
+//    implementation 'com.mapbox.mapboxsdk:mapbox-android-plugin-locationLayer:0.5.0'
+
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 }
